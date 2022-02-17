@@ -1,9 +1,15 @@
+// Paul Kotys
+// Max Humes
+
+package app.controller;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
+
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -15,7 +21,7 @@ public class SongManager {
 	private static final String SAVE_PATH = "songs.txt";
 	private List<Song> songList;
 	
-	//private SongManager constructor only for use by this class
+	//private app.controller.SongManager constructor only for use by this class
 	private SongManager()
 	{
 		this.songList = loadSongs();
@@ -36,6 +42,7 @@ public class SongManager {
 	public void Add(Song song)
 	{
 		songList.add(song);
+
 	}
 	public void Delete(Song song)
 	{

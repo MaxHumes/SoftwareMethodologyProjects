@@ -1,3 +1,6 @@
+// Paul Kotys
+// Max Humes
+
 package app.controller;
 
 import javafx.application.Application;
