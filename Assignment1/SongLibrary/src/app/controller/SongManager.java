@@ -17,7 +17,6 @@ import com.google.gson.reflect.TypeToken;
 
 /*
  * Class for managing songs added to the user's library
- * @author MaxHumes
  */
 public class SongManager {
 	private static final String SAVE_PATH = "songs.txt";
@@ -57,7 +56,6 @@ public class SongManager {
 
 		return true;
 	}
-
 	// Created a Song object, and then calls this.add to add it to the arrayList.
 	public boolean addSong(String name, String artist, String album, int year)
 	{

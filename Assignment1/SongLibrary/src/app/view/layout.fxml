@@ -11,11 +11,11 @@
           fx:controller="app.view.ListController"
           vgap="10"
           hgap="10"
-          minHeight="1000"
-          minWidth="1000">
+          minHeight="500"
+          minWidth="500">
 
-    <AnchorPane GridPane.columnIndex="0"
-                GridPane.rowIndex="0">
+    <AnchorPane GridPane.rowIndex="0"
+    			GridPane.columnIndex="0">
 
         <ListView fx:id="listView"
                   AnchorPane.topAnchor="10"
@@ -23,6 +23,36 @@
                   AnchorPane.rightAnchor="10"
                   AnchorPane.bottomAnchor="10"/>
 
+    </AnchorPane>
+    
+    <AnchorPane GridPane.RowIndex = "0"
+    			GridPane.ColumnIndex = "1">
+    			
+    			<Text Text="Song Details:" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10"/>
+    			
+    			<Text Text="Name:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="40"/>
+    			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="60" fx:id="nameTextField"/>
+    			
+    			<Text Text="Artist:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="90"/>
+    			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="110" fx:id="artistTextField"/>
+    			
+    			<Text Text="Album:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="140"/>
+    			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="160" fx:id="albumTextField"/>
+    			
+    			<Text Text="Year:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="190"/>
+    			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="210" fx:id="yearTextField"/>
+    			
+    			<Button text="Add Song" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="true" fx:id="addSongButton" onAction="#handleAddButtonAction"/>
+    			<Button text="Edit Song" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="editSongButton" onAction="#handleAddButtonAction"/>
+    			<Button text="Delete Song" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="deleteSongButton" onAction="#handleAddButtonAction"/>
+    
+    </AnchorPane>
+    
+    <AnchorPane GridPane.RowIndex="1"
+    			GridPane.columnIndex="0">
+    
+    	<Button text="New Song" AnchorPane.leftAnchor="20" prefWidth="80" onAction="#handleNewButtonAction"/>
+    
     </AnchorPane>
 
 
