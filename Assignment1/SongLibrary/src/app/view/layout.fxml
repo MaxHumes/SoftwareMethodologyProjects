@@ -43,8 +43,8 @@
     			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="210" fx:id="yearTextField"/>
     			
     			<Button text="Add Song" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="true" fx:id="addSongButton" onAction="#handleAddButtonAction"/>
-    			<Button text="Edit Song" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="editSongButton" onAction="#handleAddButtonAction"/>
-    			<Button text="Delete Song" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="deleteSongButton" onAction="#handleAddButtonAction"/>
+    			<Button text="Edit Song" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="editSongButton" onAction="#handleEditButtonAction"/>
+    			<Button text="Delete Song" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="deleteSongButton" onAction="#handleDeleteButtonAction"/>
     
     </AnchorPane>
     

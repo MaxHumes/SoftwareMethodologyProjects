@@ -69,6 +69,16 @@ public class SongManager {
 		return this.add(aSong);
 	}
 
+	public boolean edit(Song oldSong, Song newSong) 
+	{
+		if(!delete(oldSong))
+		{
+			return false;
+		}
+		
+		return add(newSong);
+	}
+	
 	public boolean delete(Song song)
 	{
 		return songList.remove(song);
