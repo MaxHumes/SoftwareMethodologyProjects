@@ -3,8 +3,6 @@
 
 package app.controller;
 
-import java.lang.StringBuilder;
-
 /*
  * This class stores song-related data
  */
@@ -31,28 +29,37 @@ public class Song implements Comparable<Song>
 
 	public int compareTo(Song other)
 	{
-		int comp = this.name.compareToIgnoreCase(other.getName());
-		if (comp == 0) {
-			return this.artist.compareToIgnoreCase(other.getArtist());
-		} else {
+		int comp = name.compareToIgnoreCase(other.getName());
+		if (comp != 0) {
 			return comp;
+		} else {
+			return artist.compareToIgnoreCase(other.getArtist());
 		}
+	}
+
+	public boolean equals(Object other)
+	{
+		if (other == this) {return true;}
+
+		if (!(other instanceof Song)) {return false;}
+
+		Song otherSong = (Song) other;
+
+		return (name.compareToIgnoreCase(otherSong.name) == 0) &&
+				(artist.compareToIgnoreCase(otherSong.artist) == 0);
 	}
 
 	public String toString()
 	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("(");
-		builder.append(this.name);
-		builder.append(" ");
-		builder.append(this.artist);
-		builder.append(" ");
-		builder.append(this.album);
-		builder.append(" ");
-		builder.append(this.year);
-		builder.append(")");
-
-		return builder.toString();
+		return "(" +
+				this.name +
+				" " +
+				this.artist +
+				" " +
+				this.album +
+				" " +
+				this.year +
+				")";
 	}
 
 

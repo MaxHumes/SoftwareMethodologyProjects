@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.lang.StringBuilder;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -21,10 +23,10 @@ public class SongManager {
 	private static final String SAVE_PATH = "songs.txt";
 	private List<Song> songList;
 	
-	//private app.controller.SongManager constructor only for use by this class
+	//private SongManager constructor only for use by this class
 	private SongManager()
 	{
-		this.songList = loadSongs();
+		this.songList = new ArrayList<Song>();
 	}
 	
 	//Singleton Pattern
@@ -39,16 +41,46 @@ public class SongManager {
 	}
 	
 	//add and remove songs from list
-	public void Add(Song song)
+	// returns false if song is already in the SongList.
+	public boolean add(Song song)
 	{
+		// If the song is already in the List, we can't add it.
+		// contains() calls the equals() method implemented in Song.
+		if (songList.contains(song)) return false;
+
+		// Add song to ArrayList.
 		songList.add(song);
 
+		// Sorts the songList according to name (ignore case), author (ignore case)
+		// See compareTo() in Song for comparison algorithm.
+		Collections.sort(songList);
+
+		return true;
 	}
-	public void Delete(Song song)
+
+	public boolean delete(Song song)
 	{
-		songList.remove(song);
+		return songList.remove(song);
 	}
-	
+
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		for (Song aSong : songList) {
+			builder.append(aSong.toString());
+			builder.append("\n");
+		}
+
+		return builder.toString();
+	}
+
+	// Returns a new ArrayList object containing all the songs.
+	// Note that songs are immutable, so this is ok.
+	public ArrayList<Song> getSongs()
+	{
+		return new ArrayList<Song>(songList);
+	}
+
 	
 	//Writes library songs in JSON format to path
 	public void SaveSongs()
