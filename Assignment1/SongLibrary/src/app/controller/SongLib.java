@@ -3,6 +3,7 @@
 
 package app.controller;
 
+import app.view.ListController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -20,8 +21,10 @@ public class SongLib extends Application {
         loader.setLocation(getClass().getResource("/app/view/layout.fxml"));
 
         GridPane root = (GridPane) loader.load();
-        root.setMinHeight(200);
-        root.setMinWidth(400);
+        root.setGridLinesVisible(true);
+
+        ListController listController = loader.getController();
+        listController.start();
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

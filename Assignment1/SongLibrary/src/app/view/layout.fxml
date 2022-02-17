@@ -5,10 +5,25 @@
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 
+
 <GridPane xmlns="http://javafx.com/javafx/11"
           xmlns:fx="http://javafx.com/fxml/1"
-          vgap="10" hgap="10">
+          fx:controller="app.view.ListController"
+          vgap="10"
+          hgap="10"
+          minHeight="1000"
+          minWidth="1000">
 
-    <Text text="Song Library" GridPane.valignment="TOP"/>
+    <AnchorPane GridPane.columnIndex="0"
+                GridPane.rowIndex="0">
+
+        <ListView fx:id="listView"
+                  AnchorPane.topAnchor="10"
+                  AnchorPane.leftAnchor="10"
+                  AnchorPane.rightAnchor="10"
+                  AnchorPane.bottomAnchor="10"/>
+
+    </AnchorPane>
+
 
 </GridPane>

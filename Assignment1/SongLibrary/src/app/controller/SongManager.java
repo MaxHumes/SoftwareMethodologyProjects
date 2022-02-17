@@ -58,6 +58,19 @@ public class SongManager {
 		return true;
 	}
 
+	// Created a Song object, and then calls this.add to add it to the arrayList.
+	public boolean addSong(String name, String artist, String album, int year)
+	{
+		// Requirement: name/artist/album can't contain pipe
+		// Requirement: year must be positive integer. 0?
+		if (name.contains("|") || artist.contains("|") || album.contains("|") || (year < 0)) {
+			return false;
+		}
+
+		Song aSong = new Song(name, artist, album, year);
+		return this.add(aSong);
+	}
+
 	public boolean delete(Song song)
 	{
 		return songList.remove(song);
