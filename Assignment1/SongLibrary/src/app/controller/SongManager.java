@@ -7,7 +7,6 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.StringBuilder;
@@ -20,7 +19,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class SongManager {
 	private static final String SAVE_PATH = "songs.txt";
-	private List<Song> songList;
+	private ArrayList<Song> songList;
 	
 	//private SongManager constructor only for use by this class
 	private SongManager()
@@ -35,6 +34,7 @@ public class SongManager {
 		if(_instance == null)
 		{
 			_instance = new SongManager();
+			_instance.loadSongs();
 		}
 		return _instance;
 	}
@@ -68,7 +68,8 @@ public class SongManager {
 		Song aSong = new Song(name, artist, album, year);
 		return this.add(aSong);
 	}
-
+	
+	//edit song in list
 	public boolean edit(Song oldSong, Song newSong) 
 	{
 		if(!delete(oldSong))
@@ -78,6 +79,11 @@ public class SongManager {
 		
 		return add(newSong);
 	}
+	public boolean editSong(Song oldSong, String newName, String newArtist, String newAlbum, int newYear)
+	{
+		return edit(oldSong, new Song(newName, newArtist, newAlbum, newYear));
+	}
+	
 	
 	public boolean delete(Song song)
 	{
@@ -122,9 +128,9 @@ public class SongManager {
 		}
 	}
 	//Loads list of songs from saved JSON string
-	private List<Song> loadSongs()
+	private void loadSongs()
 	{
-		List<Song> songs = new ArrayList<Song>();
+		songList = new ArrayList<Song>();
 		
 		try
 		{
@@ -132,13 +138,12 @@ public class SongManager {
 			
 			String songJson = Files.readString(Paths.get(SAVE_PATH));
 			
-			Type listType = new TypeToken<List<Song>>() {}.getType();
-			songs = gson.fromJson(songJson, listType);
+			Type listType = new TypeToken<ArrayList<Song>>() {}.getType();
+			songList = gson.fromJson(songJson, listType);
 		}
 		catch(IOException e)
 		{
 			//TODO: Add popup message for couldn't load songs
 		}
-		return songs;
 	}
 }

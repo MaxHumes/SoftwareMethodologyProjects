@@ -35,7 +35,12 @@ public class SongLib extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
     }
-
+    
+    //Save songs on application exit
+    @Override
+    public void stop()
+    {
+    	SongManager.getInstance().SaveSongs();
+    }
 }
