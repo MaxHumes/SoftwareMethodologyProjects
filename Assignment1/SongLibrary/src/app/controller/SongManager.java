@@ -65,6 +65,11 @@ public class SongManager {
 			return false;
 		}
 
+		// Leading/trailing whitespace must be removed.
+		name = name.strip();
+		artist = artist.strip();
+		album = album.strip();
+
 		Song aSong = new Song(name, artist, album, year);
 		return this.add(aSong);
 	}
@@ -105,7 +110,7 @@ public class SongManager {
 	// Note that songs are immutable, so this is ok.
 	public ArrayList<Song> getSongs()
 	{
-		return new ArrayList<Song>(songList);
+		return new ArrayList<>(songList);
 	}
 
 	
@@ -130,7 +135,7 @@ public class SongManager {
 	//Loads list of songs from saved JSON string
 	private void loadSongs()
 	{
-		songList = new ArrayList<Song>();
+		songList = new ArrayList<>();
 		
 		try
 		{
