@@ -46,32 +46,31 @@
     			<Text text="Year:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="190" style="-fx-underline: true"/>
     			<Text AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="210" fx:id="yearDisplay"/>
     			
-    			<Button text="Edit Song" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="moveSongButton" onAction="#handleMoveButtonAction"/>
-    			<Button text="Delete Song" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="deleteSongButton" onAction="#handleDeleteButtonAction"/>
+    			<Button text="Edit Selected Song" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="80" prefWidth="180" visible="false" fx:id="moveSongButton" onAction="#handleMoveButtonAction"/>
+    			<Button text="Delete Selected Song" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="180" visible="false" fx:id="deleteSongButton" onAction="#handleDeleteButtonAction"/>
     
     </AnchorPane>
-    
-        <AnchorPane GridPane.rowIndex="0"
-    			GridPane.columnIndex="2"
-    			prefWidth = "220">
-    
-    			<Text text="Name:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20"/>
-    			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="40" fx:id="nameTextField"/>
-    			
-    			<Text text="Artist:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="70"/>
-    			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="90" fx:id="artistTextField"/>
-    			
-    			<Text text="Album:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="120"/>
-    			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="140" fx:id="albumTextField"/>
-    			
-    			<Text text="Year:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="170"/>
-    			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="190" fx:id="yearTextField"/>
-    			
-    			<Button text="New Song" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor = "40" prefWidth="90" onAction="#handleNewButtonAction"/>
-    			<Button text="Add" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" fx:id="addButton" onAction="#handleAddButtonAction"/>
-    			<Button text="Edit" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="40" prefWidth="90" visible="false" fx:id="editButton" onAction="#handleEditButtonAction"/>
-    			
-    
+
+	<AnchorPane GridPane.rowIndex="0"
+			GridPane.columnIndex="2"
+			prefWidth = "220">
+
+			<Text text="Name:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20"/>
+			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="40" fx:id="nameTextField"/>
+
+			<Text text="Artist:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="70"/>
+			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="90" fx:id="artistTextField"/>
+
+			<Text text="Album:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="120"/>
+			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="140" fx:id="albumTextField"/>
+
+			<Text text="Year:" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="170"/>
+			<TextField AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="190" fx:id="yearTextField"/>
+
+			<Button text="Confirm Edit" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="80" prefWidth="180" visible="false" fx:id="editButton" onAction="#handleEditButtonAction"/>
+			<Button text="Cancel Edit" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="40" prefWidth="180" visible="false" fx:id="cancelButton" onAction="#handleCancelButtonAction"/>
+			<Button text="Add New Song" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor = "40" prefWidth="180" fx:id="addButton" onAction="#handleAddButtonAction"/>
+
     </AnchorPane>
 
 </GridPane>

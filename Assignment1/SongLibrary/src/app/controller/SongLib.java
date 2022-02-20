@@ -11,7 +11,10 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
+import app.controller.Persistence;
+
 public class SongLib extends Application {
+    private ListController listController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -22,7 +25,7 @@ public class SongLib extends Application {
 
         GridPane root = (GridPane) loader.load();
 
-        ListController listController = loader.getController();
+        listController = loader.getController();
         listController.start();
 
         Scene scene = new Scene(root);
@@ -32,14 +35,14 @@ public class SongLib extends Application {
 
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
     //Save songs on application exit
     @Override
     public void stop()
     {
-    	//SongManager.getInstance().SaveSongs();
+        listController.stop();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
