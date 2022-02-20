@@ -5,17 +5,17 @@ package app.view;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import app.controller.Song;
 import app.controller.Persistence;
+import javafx.stage.Stage;
 
 public class ListController {
     @FXML private Text nameDisplay;
@@ -36,6 +36,7 @@ public class ListController {
 
 	@FXML private ListView<Song> listView;
 	private ObservableList<Song> obsList = FXCollections.observableArrayList(Persistence.loadSongs());
+	private Stage primaryStage;
 
 	private void handleListViewClicked(){
 		Song selectedSong = listView.getSelectionModel().getSelectedItem();
@@ -54,8 +55,8 @@ public class ListController {
 
 	}
 
-    public void start() {
-
+    public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
         listView.setItems(obsList);
         
         //add listener for list view selected item change
@@ -89,9 +90,26 @@ public class ListController {
     	}
     }
 
+	private boolean confirmDelete()
+	{
+		Song aSong = listView.getSelectionModel().getSelectedItem();
+
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.initOwner(primaryStage);
+		alert.setTitle("Confirm Delete");
+		alert.setHeaderText("Are you sure you want to delete this song");
+		alert.setContentText(aSong.toString());
+		Optional<ButtonType> result = alert.showAndWait();
+
+		return (result.isPresent() && result.get() == ButtonType.OK);
+	}
+
 	@FXML
 	protected void handleDeleteButtonAction(ActionEvent event)
 	{
+		boolean response = confirmDelete();
+		if (!response) {return;}
+
 		int deleteAt = listView.getSelectionModel().getSelectedIndex();
 		obsList.remove(listView.getSelectionModel().getSelectedItem());
 		int newSize = obsList.size();

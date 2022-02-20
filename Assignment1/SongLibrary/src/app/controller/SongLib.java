@@ -26,7 +26,7 @@ public class SongLib extends Application {
         GridPane root = (GridPane) loader.load();
 
         listController = loader.getController();
-        listController.start();
+        listController.start(primaryStage);
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
