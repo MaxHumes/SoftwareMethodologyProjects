@@ -1,3 +1,6 @@
+// Paul Kotys
+// Max Humes
+
 package app.view;
 
 import java.util.ArrayList;
