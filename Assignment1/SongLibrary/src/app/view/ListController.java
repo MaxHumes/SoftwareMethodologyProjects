@@ -168,6 +168,9 @@ public class ListController {
 		editButton.setVisible(false);
 		cancelButton.setVisible(false);
 
+		addButton.setVisible(true);
+		deleteSongButton.setVisible(true);
+
 	}
 
 
