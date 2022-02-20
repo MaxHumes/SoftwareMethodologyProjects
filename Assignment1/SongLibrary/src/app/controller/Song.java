@@ -51,7 +51,7 @@ public class Song implements Comparable<Song>
 		}
 
 		try {
-			Integer.parseInt(year);
+			if (Integer.parseInt(year) < 0) {return false;}
 		} catch (NumberFormatException e) {
 			if (!year.equals("")) {return false;}
 		}

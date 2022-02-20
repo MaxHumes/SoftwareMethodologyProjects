@@ -18,27 +18,41 @@ import app.controller.Persistence;
 import javafx.stage.Stage;
 
 public class ListController {
-    @FXML private Text nameDisplay;
-    @FXML private Text artistDisplay;
-    @FXML private Text albumDisplay;
-    @FXML private Text yearDisplay;
-    
-    @FXML private TextField nameTextField;
-    @FXML private TextField artistTextField;
-    @FXML private TextField albumTextField;
-    @FXML private TextField yearTextField;
-    
-    @FXML private Button moveSongButton;
-    @FXML private Button deleteSongButton;
-    @FXML private Button addButton;
-    @FXML private Button editButton;
-	@FXML private Button cancelButton;
+	@FXML
+	private Text nameDisplay;
+	@FXML
+	private Text artistDisplay;
+	@FXML
+	private Text albumDisplay;
+	@FXML
+	private Text yearDisplay;
 
-	@FXML private ListView<Song> listView;
+	@FXML
+	private TextField nameTextField;
+	@FXML
+	private TextField artistTextField;
+	@FXML
+	private TextField albumTextField;
+	@FXML
+	private TextField yearTextField;
+
+	@FXML
+	private Button moveSongButton;
+	@FXML
+	private Button deleteSongButton;
+	@FXML
+	private Button addButton;
+	@FXML
+	private Button editButton;
+	@FXML
+	private Button cancelButton;
+
+	@FXML
+	private ListView<Song> listView;
 	private ObservableList<Song> obsList = FXCollections.observableArrayList(Persistence.loadSongs());
 	private Stage primaryStage;
 
-	private void handleListViewClicked(){
+	private void handleListViewClicked() {
 		Song selectedSong = listView.getSelectionModel().getSelectedItem();
 		if (selectedSong == null) {
 			clearDisplays();
@@ -55,11 +69,11 @@ public class ListController {
 
 	}
 
-    public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-        listView.setItems(obsList);
-        
-        //add listener for list view selected item change
+		listView.setItems(obsList);
+
+		//add listener for list view selected item change
 		listView.setOnMouseClicked(
 				(msEvent) -> handleListViewClicked()
 		);
@@ -72,32 +86,29 @@ public class ListController {
 	public void stop() {
 		Persistence.saveSongs(new ArrayList<Song>(obsList));
 	}
-    
-    @FXML
-	protected void handleMoveButtonAction(ActionEvent event)
-    {
-    	if(listView.getSelectionModel().selectedItemProperty() != null)
-    	{
-        	nameTextField.setText(listView.getSelectionModel().getSelectedItem().getName());
-        	artistTextField.setText(listView.getSelectionModel().getSelectedItem().getArtist());
-        	albumTextField.setText(listView.getSelectionModel().getSelectedItem().getAlbum());
-        	yearTextField.setText(listView.getSelectionModel().getSelectedItem().getYear());
+
+	@FXML
+	protected void handleMoveButtonAction(ActionEvent event) {
+		if (listView.getSelectionModel().selectedItemProperty() != null) {
+			nameTextField.setText(listView.getSelectionModel().getSelectedItem().getName());
+			artistTextField.setText(listView.getSelectionModel().getSelectedItem().getArtist());
+			albumTextField.setText(listView.getSelectionModel().getSelectedItem().getAlbum());
+			yearTextField.setText(listView.getSelectionModel().getSelectedItem().getYear());
 
 			deleteSongButton.setVisible(false);
 			addButton.setVisible(false);
 			editButton.setVisible(true);
 			cancelButton.setVisible(true);
-    	}
-    }
+		}
+	}
 
-	private boolean confirmDelete()
-	{
+	private boolean confirmDelete() {
 		Song aSong = listView.getSelectionModel().getSelectedItem();
 
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.initOwner(primaryStage);
 		alert.setTitle("Confirm Delete");
-		alert.setHeaderText("Are you sure you want to delete this song");
+		alert.setHeaderText("Are you sure you want to delete this song?");
 		alert.setContentText(aSong.toString());
 		Optional<ButtonType> result = alert.showAndWait();
 
@@ -105,10 +116,11 @@ public class ListController {
 	}
 
 	@FXML
-	protected void handleDeleteButtonAction(ActionEvent event)
-	{
+	protected void handleDeleteButtonAction(ActionEvent event) {
 		boolean response = confirmDelete();
-		if (!response) {return;}
+		if (!response) {
+			return;
+		}
 
 		int deleteAt = listView.getSelectionModel().getSelectedIndex();
 		obsList.remove(listView.getSelectionModel().getSelectedItem());
@@ -117,7 +129,7 @@ public class ListController {
 		if (newSize == 0) {
 			handleListViewClicked();
 		} else if (deleteAt == newSize) {
-			listView.getSelectionModel().select(deleteAt-1);
+			listView.getSelectionModel().select(deleteAt - 1);
 			handleListViewClicked();
 		} else {
 			listView.getSelectionModel().select(deleteAt);
@@ -125,7 +137,57 @@ public class ListController {
 		}
 
 	}
-    
+
+	private void invalidArguments() {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.initOwner(primaryStage);
+		alert.setTitle("Song Not Valid");
+		alert.setHeaderText("The values you entered for the song are not valid");
+
+		String songInfo = "name: " + nameTextField.getText() +
+				"\nartist: " + artistTextField.getText() +
+				"\nalbum: " + albumTextField.getText() +
+				"\nyear: " + yearTextField.getText();
+
+		alert.setContentText(songInfo);
+		alert.showAndWait();
+
+	}
+
+	private void songExist() {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.initOwner(primaryStage);
+		alert.setTitle("Song Already in Library");
+		alert.setHeaderText("The song you are trying to add is already in the library");
+
+		String songInfo = "name: " + nameTextField.getText() +
+				"\nartist: " + artistTextField.getText() +
+				"\nalbum: " + albumTextField.getText() +
+				"\nyear: " + yearTextField.getText();
+
+		alert.setContentText(songInfo);
+		alert.showAndWait();
+	}
+
+	private boolean confirmAdd()
+	{
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.initOwner(primaryStage);
+		alert.setTitle("Confirm Add");
+		alert.setHeaderText("Are you sure you want to add this song?");
+
+		String songInfo = "name: " + nameTextField.getText() +
+				"\nartist: " + artistTextField.getText() +
+				"\nalbum: " + albumTextField.getText() +
+				"\nyear: " + yearTextField.getText();
+
+		alert.setContentText(songInfo);
+		Optional<ButtonType> result = alert.showAndWait();
+
+		return (result.isPresent() && result.get() == ButtonType.OK);
+
+	}
+
 	@FXML
 	protected void handleAddButtonAction(ActionEvent event)
 	{
@@ -135,11 +197,18 @@ public class ListController {
 							 artistTextField.getText(),
 							 albumTextField.getText(),
 							 yearTextField.getText())) {
+			invalidArguments();
 			return;
 		}
 
 		// Check if song already in obsList
 		if (obsList.contains(aSong)) {
+			songExist();
+			return;
+		}
+
+		boolean response = confirmAdd();
+		if (!response) {
 			return;
 		}
 
