@@ -120,8 +120,6 @@ public class SongManager {
 	//Loads list of songs from saved JSON string
 	private void loadSongs()
 	{
-		songList = new ArrayList<>();
-		
 		try
 		{
 			Gson gson = new Gson();

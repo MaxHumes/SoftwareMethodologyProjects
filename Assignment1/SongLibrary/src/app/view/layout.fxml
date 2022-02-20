@@ -16,7 +16,9 @@
           minHeight="500"
           minWidth="500">
 
-    <AnchorPane GridPane.rowIndex="0"
+	<gridLinesVisible>true</gridLinesVisible>
+
+	<AnchorPane GridPane.rowIndex="0"
     			GridPane.columnIndex="0">
 
         <ListView fx:id="listView"

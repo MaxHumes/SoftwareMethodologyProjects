@@ -21,7 +21,6 @@ public class SongLib extends Application {
         loader.setLocation(getClass().getResource("/app/view/layout.fxml"));
 
         GridPane root = (GridPane) loader.load();
-        root.setGridLinesVisible(true);
 
         ListController listController = loader.getController();
         listController.start();
