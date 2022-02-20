@@ -221,6 +221,25 @@ public class ListController {
 		clearTextFields();
 
 	}
+
+	private boolean confirmEdit(Song oldSong, Song newSong)
+	{
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.initOwner(primaryStage);
+		alert.setTitle("Confirm Edit");
+		alert.setHeaderText("Are you sure you want to make these edits?");
+
+		String songInfo = "name: " + oldSong.getName() + " -> " + newSong.getName() +
+				          "\nartist: " + oldSong.getArtist() + " -> " + newSong.getArtist() +
+				          "\nalbum: " + oldSong.getAlbum() + " -> " + newSong.getAlbum() +
+				          "\nyear: " + oldSong.getYear() + " -> " + newSong.getYear();
+
+		alert.setContentText(songInfo);
+		Optional<ButtonType> result = alert.showAndWait();
+		return (result.isPresent() && result.get() == ButtonType.OK);
+
+	}
+
 	@FXML
 	protected void handleEditButtonAction(ActionEvent event) {
 		Song oldSong = listView.getSelectionModel().getSelectedItem();
@@ -230,15 +249,29 @@ public class ListController {
 		if (!newSong.setFields(nameTextField.getText(),
 				artistTextField.getText(),
 				albumTextField.getText(),
-				yearTextField.getText()) || obsList.contains(newSong)) {
+				yearTextField.getText())) {
+			invalidArguments();
+			obsList.add(oldSong);
+			Collections.sort(obsList);
+			listView.getSelectionModel().select(oldSong);
+
+		} else if (obsList.contains(newSong)) {
+			songExist();
 			obsList.add(oldSong);
 			Collections.sort(obsList);
 			listView.getSelectionModel().select(oldSong);
 
 		} else {
-			obsList.add(newSong);
-			Collections.sort(obsList);
-			listView.getSelectionModel().select(newSong);
+			boolean response = confirmEdit(oldSong, newSong);
+			if (response) {
+				obsList.add(newSong);
+				Collections.sort(obsList);
+				listView.getSelectionModel().select(newSong);
+			} else {
+				obsList.add(oldSong);
+				Collections.sort(obsList);
+				listView.getSelectionModel().select(oldSong);
+			}
 		}
 
 		handleListViewClicked();
