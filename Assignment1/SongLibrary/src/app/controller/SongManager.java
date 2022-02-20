@@ -38,17 +38,20 @@ public class SongManager {
 		}
 		return _instance;
 	}
-	
-	//add and remove songs from list
-	// returns false if song is already in the SongList.
-	public boolean add(Song song)
+
+	// Creates a Song object, and then adds it to the ArrayList.
+	public boolean addSong(String name, String artist, String album, int year)
 	{
+		// Try to create song; checks for invalid arguments
+		Song aSong = new Song();
+		if (!aSong.setFields(name, artist, album, year)) {return false;}
+
 		// If the song is already in the List, we can't add it.
 		// contains() calls the equals() method implemented in Song.
-		if (songList.contains(song)) return false;
+		if (songList.contains(aSong)) return false;
 
 		// Add song to ArrayList.
-		songList.add(song);
+		songList.add(aSong);
 
 		// Sorts the songList according to name (ignore case), author (ignore case)
 		// See compareTo() in Song for comparison algorithm.
@@ -56,37 +59,19 @@ public class SongManager {
 
 		return true;
 	}
-	// Created a Song object, and then calls this.add to add it to the arrayList.
-	public boolean addSong(String name, String artist, String album, int year)
-	{
-		// Requirement: name/artist/album can't contain pipe
-		// Requirement: year must be positive integer. 0?
-		if (name.contains("|") || artist.contains("|") || album.contains("|") || (year < 0)) {
-			return false;
-		}
 
-		// Leading/trailing whitespace must be removed.
-		name = name.strip();
-		artist = artist.strip();
-		album = album.strip();
-
-		Song aSong = new Song(name, artist, album, year);
-		return this.add(aSong);
-	}
-	
-	//edit song in list
-	public boolean edit(Song oldSong, Song newSong) 
-	{
-		if(!delete(oldSong))
-		{
-			return false;
-		}
-		
-		return add(newSong);
-	}
 	public boolean editSong(Song oldSong, String newName, String newArtist, String newAlbum, int newYear)
 	{
-		return edit(oldSong, new Song(newName, newArtist, newAlbum, newYear));
+		// Songs are immutable; must remove oldSong even if edited.
+		songList.remove(oldSong);
+
+		// Tries to create a new song and add it to the ArrayList.
+		if (!this.addSong(newName, newArtist, newAlbum, newYear)) {
+			songList.add(oldSong); // Add old song back
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	

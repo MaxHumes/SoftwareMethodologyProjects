@@ -13,7 +13,7 @@ public class Song implements Comparable<Song>
 	private String artist;
 	private String album;
 	private int year;
-	
+
 	public Song(String name, String artist, String album, int year)
 	{
 		this.name = name;
@@ -22,10 +22,39 @@ public class Song implements Comparable<Song>
 		this.year = year;
 	}
 
+	public Song()
+	{
+		this("", "", "", -1);
+	}
+
 	public String getName() {return name;}
 	public String getArtist() {return artist;}
 	public String getAlbum() {return album;}
 	public int getYear() {return year;}
+
+	public boolean setFields(String name, String artist, String album, int year)
+	{
+		// Requirement: Leading/trailing whitespace must be removed.
+		name   = name.strip();
+		artist = artist.strip();
+		album  = album.strip();
+
+		// Requirement: name/artist can't be empty
+		// Requirement: name/artist/album can't contain pipe
+		// Requirement: year must be positive integer. 0?
+		if (name.equals("") || name.contains("|") ||
+			artist.equals("") || artist.contains("|") ||
+			album.contains("|") || (year < 0)) {
+
+			return false;
+		}
+
+		this.name   = name;
+		this.artist = artist;
+		this.album  = album;
+		this.year   = year;
+		return true;
+	}
 
 	public int compareTo(Song other)
 	{

@@ -35,12 +35,12 @@ public class SongTest {
 
         SongManager SM = SongManager.getInstance();
 
-        SM.add(bSong);
+        //SM.add(bSong);
         System.out.println(SM);
-        SM.add(aSong);
+        //SM.add(aSong);
         System.out.println(SM);
-        SM.add(cSong);
-        SM.add(dSong);
+        //SM.add(cSong);
+        //SM.add(dSong);
         System.out.println(SM);
 
         for (Song theSong : SM.getSongs()) {
