@@ -12,9 +12,9 @@ public class Song implements Comparable<Song>
 	private String name;
 	private String artist;
 	private String album;
-	private int year;
+	private String year;
 
-	public Song(String name, String artist, String album, int year)
+	public Song(String name, String artist, String album, String year)
 	{
 		this.name = name;
 		this.artist = artist;
@@ -24,29 +24,36 @@ public class Song implements Comparable<Song>
 
 	public Song()
 	{
-		this("", "", "", -1);
+		this("", "", "", "");
 	}
 
 	public String getName() {return name;}
 	public String getArtist() {return artist;}
 	public String getAlbum() {return album;}
-	public int getYear() {return year;}
+	public String getYear() {return year;}
 
-	public boolean setFields(String name, String artist, String album, int year)
+	public boolean setFields(String name, String artist, String album, String year)
 	{
 		// Requirement: Leading/trailing whitespace must be removed.
 		name   = name.strip();
 		artist = artist.strip();
 		album  = album.strip();
+		year   = year.strip();
 
 		// Requirement: name/artist can't be empty
 		// Requirement: name/artist/album can't contain pipe
 		// Requirement: year must be positive integer. 0?
 		if (name.equals("") || name.contains("|") ||
 			artist.equals("") || artist.contains("|") ||
-			album.contains("|") || (year < 0)) {
+			album.contains("|")) {
 
 			return false;
+		}
+
+		try {
+			Integer.parseInt(year);
+		} catch (NumberFormatException e) {
+			if (!year.equals("")) {return false;}
 		}
 
 		this.name   = name;

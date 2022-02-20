@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 /*
  * Class for managing songs added to the user's library
  */
+/*
 public class SongManager {
 	private static final String SAVE_PATH = "songs.txt";
 	private ArrayList<Song> songList;
@@ -95,7 +96,7 @@ public class SongManager {
 	// Note that songs are immutable, so this is ok.
 	public ArrayList<Song> getSongs()
 	{
-		return new ArrayList<>(songList);
+		return songList;
 	}
 
 	
@@ -135,3 +136,4 @@ public class SongManager {
 		}
 	}
 }
+*/

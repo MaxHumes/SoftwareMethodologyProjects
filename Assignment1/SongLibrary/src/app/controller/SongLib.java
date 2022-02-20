@@ -40,6 +40,6 @@ public class SongLib extends Application {
     @Override
     public void stop()
     {
-    	SongManager.getInstance().SaveSongs();
+    	//SongManager.getInstance().SaveSongs();
     }
 }

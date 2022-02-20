@@ -4,22 +4,23 @@
 package app.view;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ModifiableObservableListBase;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import app.controller.Song;
-import app.controller.SongManager;
 
 public class ListController {
-    @FXML private ListView<Song> listView;
-    
     @FXML private Text nameDisplay;
     @FXML private Text artistDisplay;
     @FXML private Text albumDisplay;
@@ -35,11 +36,10 @@ public class ListController {
     @FXML private Button addButton;
     @FXML private Button editButton;
 
-	private SongManager songManager;
-    private ObservableList<Song> obsList;
+	@FXML private ListView<Song> listView;
+	private ObservableList<Song> obsList = FXCollections.observableArrayList();
 
-	private void showDetails(Song oldVal, Song newVal)
-	{
+	private void handleListViewClicked(){
 		Song selectedSong = listView.getSelectionModel().getSelectedItem();
 		if (selectedSong == null) {
 			clearDisplays();
@@ -49,60 +49,26 @@ public class ListController {
 		nameDisplay.setText(selectedSong.getName());
 		artistDisplay.setText(selectedSong.getArtist());
 		albumDisplay.setText(selectedSong.getAlbum());
-		yearDisplay.setText(Integer.toString(selectedSong.getYear()));
+		yearDisplay.setText(selectedSong.getYear());
 
 		moveSongButton.setVisible(true);
 		deleteSongButton.setVisible(true);
+
 	}
 
     public void start() {
-        // Initialize songManager and obsList
-		songManager = SongManager.getInstance();
-    	obsList = FXCollections.observableArrayList(songManager.getSongs());
+
         listView.setItems(obsList);
         
         //add listener for list view selected item change
-        listView.getSelectionModel()
-				.selectedItemProperty()
-				.addListener(
-						(obs, oldVal, newVal) -> showDetails(oldVal, newVal));
+		listView.setOnMouseClicked(
+				(msEvent) -> handleListViewClicked()
+		);
 
 		// Select first item in list if we loaded songs.
 		listView.getSelectionModel().selectFirst();
-				/*
-			new ChangeListener<Song>() {
-			@Override
-			public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-				addButton.setVisible(true);
-				editButton.setVisible(false);
-				
-				//change displays if selecting new song
-				if(newValue != null)
-				{
-					nameDisplay.setText(newValue.getName());
-					artistDisplay.setText(newValue.getArtist());
-					albumDisplay.setText(newValue.getAlbum());
-					yearDisplay.setText(Integer.toString(newValue.getYear()));
-					
-					moveSongButton.setVisible(true);
-					deleteSongButton.setVisible(true);
-					
-					clearFields();
-				}
-				//change display if song was deleted
-				else
-				{
-					moveSongButton.setVisible(false);
-					deleteSongButton.setVisible(false);
-				}
-			}
-        }
-		);
-        */
+	}
 
-    }
-    
-    
     @FXML protected void handleNewButtonAction(ActionEvent event)
     {
 		listView.getSelectionModel().clearSelection();
@@ -120,31 +86,74 @@ public class ListController {
         	nameTextField.setText(listView.getSelectionModel().getSelectedItem().getName());
         	artistTextField.setText(listView.getSelectionModel().getSelectedItem().getArtist());
         	albumTextField.setText(listView.getSelectionModel().getSelectedItem().getAlbum());
-        	yearTextField.setText(Integer.toString(listView.getSelectionModel().getSelectedItem().getYear()));
+        	yearTextField.setText(listView.getSelectionModel().getSelectedItem().getYear());
     	}
     }
+
 	@FXML protected void handleDeleteButtonAction(ActionEvent event)
 	{
-		songManager.delete(listView.getSelectionModel().getSelectedItem());
-		refreshView();
-		/*
-		clearDisplays();
-		
-		editButton.setVisible(false);
-		addButton.setVisible(true);
-		refreshView();*/
+		int deleteAt = listView.getSelectionModel().getSelectedIndex();
+		obsList.remove(listView.getSelectionModel().getSelectedItem());
+		int newSize = obsList.size();
+
+		if (newSize == 0) {
+			handleListViewClicked();
+		} else if (deleteAt == newSize) {
+			listView.getSelectionModel().select(deleteAt-1);
+			handleListViewClicked();
+		} else {
+			listView.getSelectionModel().select(deleteAt);
+			handleListViewClicked();
+		}
+
 	}
     
 	@FXML protected void handleAddButtonAction(ActionEvent event)
-	{		
-		songManager.addSong(nameTextField.getText(), artistTextField.getText(),albumTextField.getText(), Integer.parseInt(yearTextField.getText()));
-		clearFields();
-		refreshView();
+	{
+		// Create a new Song object and validate fields
+		Song aSong = new Song();
+		if (!aSong.setFields(nameTextField.getText(),
+							 artistTextField.getText(),
+							 albumTextField.getText(),
+							 yearTextField.getText())) {
+			return;
+		}
+
+		// Check if song already in obsList
+		if (obsList.contains(aSong)) {
+			return;
+		}
+
+		obsList.add(aSong);
+		Collections.sort(obsList);
+
+		// Select song automatically in obsList.
+		listView.getSelectionModel().select(aSong);
+		handleListViewClicked();
+
 	}
 	@FXML protected void handleEditButtonAction(ActionEvent event)
 	{
-		songManager.editSong(listView.getSelectionModel().getSelectedItem(), nameTextField.getText(), artistTextField.getText(),albumTextField.getText(), Integer.parseInt(yearTextField.getText()));
-		refreshView();
+		Song oldSong = listView.getSelectionModel().getSelectedItem();
+		obsList.remove(oldSong);
+
+		Song newSong = new Song();
+		if (!newSong.setFields(nameTextField.getText(),
+							   artistTextField.getText(),
+							   albumTextField.getText(),
+							   yearTextField.getText()) || obsList.contains(newSong)){
+			obsList.add(oldSong);
+			Collections.sort(obsList);
+			listView.getSelectionModel().select(oldSong);
+			handleListViewClicked();
+			return;
+
+		} else {
+			obsList.add(newSong);
+			Collections.sort(obsList);
+			listView.getSelectionModel().select(newSong);
+			handleListViewClicked();
+		}
 	}
 
 	
@@ -163,8 +172,5 @@ public class ListController {
 		albumTextField.setText("");
 		yearTextField.setText("");
 	}
-	private void refreshView() 
-	{
-		listView.setItems(FXCollections.observableArrayList(songManager.getSongs()));
-	}
+
 }
