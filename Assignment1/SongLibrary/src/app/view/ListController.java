@@ -56,6 +56,8 @@ public class ListController {
 		Song selectedSong = listView.getSelectionModel().getSelectedItem();
 		if (selectedSong == null) {
 			clearDisplays();
+			moveSongButton.setVisible(false);
+			deleteSongButton.setVisible(false);
 			return;
 		}
 
